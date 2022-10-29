@@ -13,6 +13,20 @@ function App() {
 
    const handalSubmit = (e) =>{
     e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const user = {name, email};
+    fetch("http://localhost:5000/users", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error))
+    e.target.reset();
    }
   return (
     <div className="App">
