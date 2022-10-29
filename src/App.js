@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(()=>{
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  },[]);
+
+   const handalSubmit = (e) =>{
+    e.preventDefault();
+   }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handalSubmit}>
+        <input type="text" name='name' placeholder='User Name'/>
+        <br />
+        <input type="email" name="email" id="" placeholder='User Email'/>
+        <br />
+        <button type="submit">Add User</button>
+      </form>
+      <h2>Users: {users.length}</h2>
+      <div>
+        {
+          users.map(user=> <p key={user.id}>{user.name}  {user.email}</p>)
+        }
+      </div>
     </div>
   );
 }
